@@ -20,7 +20,7 @@ For a live demo, visit [Strange Attractor Visualization](https://newsplanetai.co
 
 1. Clone this repository.
     ```bash
-    git clone https://github.com/yourusername/LorenzAttractorVisualization.git
+    git clone https://github.com/Norsninja/LorenzAttractorVisualization.git
     ```
 
 2. Navigate to the repository folder.
