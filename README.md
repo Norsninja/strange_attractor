@@ -37,7 +37,3 @@ For a live demo, visit [Strange Attractor Visualization](https://newsplanetai.co
 - **Strange Attractors**: Get a glimpse of how systems can evolve into a complex set of states, represented by the fractal-like geometry of the Lorenz attractor.
 
 - **Three.js and WebGL**: Learn how to create 3D graphics and animations in the browser.
-
-## Author
-
-[Your Name]
