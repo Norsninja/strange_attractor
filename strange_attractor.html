@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lorenz Attractor</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+</head>
+<body>
+
+<div id="scene-container"></div>
+
+<script>
+  let scene, camera, renderer, geometry, material, line, ball;
+
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  // Initialize Three.js scene
+  function init() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('scene-container').appendChild(renderer.domElement);
+
+    window.addEventListener('resize', onWindowResize, false);
+
+    // Lorenz Attractor Parameters
+    const sigma = 10;
+    const rho = 28;
+    const beta = 8 / 3;
+    const dt = 0.01;
+
+    let x = 0.1, y = 0, z = 0;
+    const points = [];
+
+    for (let i = 0; i < 10000; i++) {
+      const dx = sigma * (y - x) * dt;
+      const dy = (x * (rho - z) - y) * dt;
+      const dz = (x * y - beta * z) * dt;
+      
+      x += dx;
+      y += dy;
+      z += dz;
+
+      points.push(new THREE.Vector3(x, y, z));
+    }
+
+    geometry = new THREE.BufferGeometry().setFromPoints(points);
+    material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    line = new THREE.Line(geometry, material);
+    scene.add(line);
+
+    const ballGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    ball = new THREE.Mesh(ballGeometry, ballMaterial);
+    scene.add(ball);
+
+    camera.position.z = 80;
+    camera.position.y = 10;
+    camera.position.x = 15;
+  }
+
+  let index = 0;
+
+  // Animate the scene
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (index < line.geometry.attributes.position.array.length) {
+      ball.position.x = line.geometry.attributes.position.array[index];
+      ball.position.y = line.geometry.attributes.position.array[index + 1];
+      ball.position.z = line.geometry.attributes.position.array[index + 2];
+      index += 3;
+    } else {
+      index = 0;
+    }
+
+    renderer.render(scene, camera);
+  }
+
+  // Initialize and animate
+  init();
+  animate();
+</script>
+
+</body>
+</html>
